@@ -11,7 +11,7 @@ Kaizer666 - [http://vk.com/](http://vk.com/id_00000000000000000000000000)
 
 ## Установка
 
-    go get https://github.com/kaizer666/Redis
+    go get github.com/kaizer666/Redis
     
 ## Использование
 
