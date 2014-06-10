@@ -6,7 +6,7 @@ Worked with [redigo](https://github.com/garyburd/redigo/)
 
 ## Author
 
-Kaizer666 - [http://vk.com/id_00000000000000000000000000](http://vk.com/id_00000000000000000000000000)
+Kaizer666 - [http://vk.com/](http://vk.com/id_00000000000000000000000000)
 
 ## Installation
 
