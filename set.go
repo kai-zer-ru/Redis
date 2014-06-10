@@ -79,7 +79,7 @@ func (r *RedisType) SUnion (key ...interface {}) (interface {},error){
 	return row, err
 }
 
-func (r *RedisType) SMembers (destination,key string) (int,error){
+func (r *RedisType) SUnionStore (destination,key string) (int,error){
 	row,err := redis.Int(r.RedisConn.Do("SUNIONSTORE",destination,key))
 	return row, err
 }
