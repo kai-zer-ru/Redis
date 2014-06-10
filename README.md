@@ -1,6 +1,7 @@
-# Config
+# About
 
 Package to easy use [redis](http://redis.io) with [Go](http://golang.org/).
+Thanks for [GaryBurd](https://github.com/garyburd/redigo/)
 
 ## Author
 
