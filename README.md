@@ -1,8 +1,8 @@
 # О библиотеке
 
-Библиотека дл работы с [!`redis`](http://redis.io) на языке [!`Go`](http://golang.org/).
+Библиотека дл работы с [redis](http://redis.io) на языке [Go](http://golang.org/).
 
-Для работы требуется [!`redigo`](https://github.com/garyburd/redigo/)
+Для работы требуется [redigo](!https://github.com/garyburd/redigo/)
 
 Доработка ещё в процессе, написаы основные функции.
 ## Автор
