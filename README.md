@@ -1,18 +1,19 @@
-# About
+# О библиотеке
 
-Package to easy use [redis](http://redis.io) with [Go](http://golang.org/).
+Библиотека дл работы с [redis](http://redis.io) на языке [Go](http://golang.org/).
 
-Worked with [redigo](https://github.com/garyburd/redigo/)
+Для работы требуется [redigo](https://github.com/garyburd/redigo/)
 
-## Author
+Доработка ещё в процессе, написаы основные функции.
+## Автор
 
 Kaizer666 - [http://vk.com/](http://vk.com/id_00000000000000000000000000)
 
-## Installation
+## Установка
 
     go get https://github.com/kaizer666/Redis
     
-## Usage
+## Использование
 
 <pre>
 
@@ -24,12 +25,11 @@ import (
       )
 
 func main() {
-
     MyRedis := Redis.RedisType{
         Host:"localhost",
         Port:1234,
-        Password:"qweqweqweqw",
-        DB:0,
+        Password:"qweqweqweqw",// Необязательный параметр
+        DB:0,// Необязательный параметр
         }
     MyRedis.Connect()
     defer MyRedis.Close()
@@ -39,8 +39,6 @@ func main() {
     }
     fmt.Println(row)
 }
-
-
 
 </pre>
 
