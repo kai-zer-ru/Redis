@@ -1,6 +1,7 @@
 # About
 
-Package to easy use [redis](http://redis.io) with [Go](http://golang.org/).</br>
+Package to easy use [redis](http://redis.io) with [Go](http://golang.org/).
+
 Worked with [redigo](https://github.com/garyburd/redigo/)
 
 ## Author
