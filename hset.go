@@ -6,13 +6,13 @@ import (
 )
 
 // Работа с HASH (HSET)
-func (r *RedisType) HGetAll(key string) map[string]interface {} {
+func (r *RedisType) HGetAll(key string) (map[string]interface {},error) {
 	rowRed,errRed := r.RedisConn.Do("HGETALL",key)
 	if errRed == redis.ErrNil{
-		return nil
+		return nil,errRed
 	}
 	row := r.GetRedisReply(rowRed,errRed,[]string{})
-	return row
+	return row,errRed
 }
 
 func (r *RedisType) HMGet(key string,fields ...string) (map[string]interface {},error) {

@@ -20,9 +20,11 @@ func (r *RedisType) Connect() error{
 	if r.ErrRed != nil {
 		return r.ErrRed
 	}
-	_,errAuth := r.RedisConn.Do("AUTH", r.Password)
-	if errAuth != nil {
-		return errAuth
+	if r.Password != "" {
+		_, errAuth := r.RedisConn.Do("AUTH", r.Password)
+		if errAuth != nil {
+			return errAuth
+		}
 	}
 	if r.DB != 0 {
 		r.RedisConn.Send("SELECT",r.DB)
