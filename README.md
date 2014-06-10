@@ -10,7 +10,7 @@ Kaizer666 - [http://vk.com/id_00000000000000000000000000](http://vk.com/id_00000
 
 ## Installation
 
-    go get https://github.com/kovalyovmakc1990/Redis
+    go get https://github.com/kaizer666/Redis
     
 ## Usage
 
@@ -19,7 +19,7 @@ Kaizer666 - [http://vk.com/id_00000000000000000000000000](http://vk.com/id_00000
 package main
 
 import (
-      "https://github.com/kovalyovmakc1990/Redis"
+      "https://github.com/kaizer666/Redis"
       "fmt"
       )
 
