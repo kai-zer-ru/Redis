@@ -20,11 +20,9 @@ func (r *RedisType) Connect() error{
 	if r.ErrRed != nil {
 		return r.ErrRed
 	}
-	if r.Password != "" {
-		_, errAuth := r.RedisConn.Do("AUTH", r.Password)
-		if errAuth != nil {
-			return errAuth
-		}
+	_,errAuth := r.RedisConn.Do("AUTH", r.Password)
+	if errAuth != nil {
+		return errAuth
 	}
 	if r.DB != 0 {
 		r.RedisConn.Send("SELECT",r.DB)
@@ -70,6 +68,68 @@ func (r *RedisType) ExpireAt (key string, timestamp uint32) (int,error) {
 	row,err := redis.Int(r.RedisConn.Do("EXPIREAT",key,timestamp))
 	return row, err
 }
+
+func (r *RedisType) Dump (key string) (string,error) {
+	row,err := redis.String(r.RedisConn.Do("DUMP",key))
+	return row,err
+}
+
+func (r *RedisType) Migrate (host string, port int, key string, db, timeout int, copy, replace bool) (string,error) {
+	params := []interface {} {
+		host, port, key, db,timeout,copy,replace,
+	}
+	row,err := redis.String(r.RedisConn.Do("MIGRATE",params...))
+	return row, err
+}
+
+func (r *RedisType) Move (key string,db int) (int,error) {
+	row,err := redis.Int(r.RedisConn.Do("MOVE",key,db))
+	return row, err
+}
+
+func (r *RedisType) Persist (key string) (bool,error) {
+	row,err := redis.Bool(r.RedisConn.Do("PERSIST",key))
+	return row, err
+}
+
+func (r *RedisType) Pexpire (key string, milliseconds int) (bool, error) {
+	row, err := redis.Bool(r.RedisConn.Do("PEXPIRE",key, milliseconds))
+	return row, err
+}
+func (r *RedisType) PexpireAt (key string, milliseconds int) (bool, error) {
+	row, err := redis.Bool(r.RedisConn.Do("PEXPIREAT",key, milliseconds))
+	return row, err
+}
+
+func (r *RedisType) Pttl (key string) (bool,error) {
+	row,err := redis.Bool(r.RedisConn.Do("PTTL",key))
+	return row, err
+}
+
+func (r *RedisType) RandomKey () (string, error) {
+	row,err := redis.String(r.RedisConn.Do("RANDOMKEY"))
+	return row, err
+}
+
+func (r *RedisType) Rename (key, newkey string) (bool, error) {
+	row,err := redis.Bool(r.RedisConn.Do("RENAME", key, newkey))
+	return row, err
+}
+func (r *RedisType) RenameNX (key, newkey string) (bool, error) {
+	row,err := redis.Bool(r.RedisConn.Do("RENAMENX", key, newkey))
+	return row, err
+}
+//RESTORE key ttl serialized-value
+func (r *RedisType) Restore (key string, ttl int, serialized_value string ) (bool, error) {
+	row,err := redis.Bool(r.RedisConn.Do("RESTORE", key, ttl, serialized_value))
+	return row, err
+}
+
+func (r *RedisType) Type (key string) (string, error) {
+	row,err := redis.String(r.RedisConn.Do("TYPE", key))
+	return row, err
+}
+
 
 func (r *RedisType) Info () (map[string]interface {},error) {
 	row, err := r.RedisConn.Do("INFO")
@@ -148,13 +208,10 @@ func (r *RedisType) GetBool(row interface {},err error) (bool,error) {
 	if err != nil {
 		return false, err
 	}
+	fmt.Printf("(%T) : %v\n",row,row)
 	switch row.(type){
 	case string:
 		if row.(string) == "OK" {return true, nil} else {return false, err}
-	case int,uint32,uint8,uint16,uint64:
-		if row == 1 {return true, nil} else {return false, err}
-	case float32,float64:
-		if row == 1.0 {return true, nil} else {return false, err}
 	}
 	return false, nil
 }

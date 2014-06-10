@@ -135,3 +135,7 @@ func (r *RedisType) HVals (key string) (interface {},error) {
 	row2:= r.GetRedisReplyArray(row,err)
 	return row2, err
 }
+
+//func (r *RedisType) HScan () () {
+//	//HSCAN key cursor [MATCH pattern] [COUNT count]
+//}
