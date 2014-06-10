@@ -1,0 +1,262 @@
+package main
+
+import (
+	"k12golibs/Redis"
+	"fmt"
+)
+
+func connect() Redis.RedisType{
+	red := Redis.RedisType{Host:"10.200.200.9", Port:6379,Password:"77b6533006b74296a16388b8473a58e9",DB:0}
+	red.Connect()
+	return red
+}
+
+func pareseError(row interface {}, err error) {
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(row)
+}
+
+func hset(MyRedis Redis.RedisType){
+	err := MyRedis.HSet("TestSetKey","hset1",0.1)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("HSET COMPLETE")
+}
+
+func hget(MyRedis Redis.RedisType){
+	row,err := MyRedis.HGet("TestSetKey","hset1")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("HGET COMPLETE")
+	fmt.Printf("(%T) : row = %s\n",row,row)
+}
+
+func hmset(MyRedis Redis.RedisType) {
+	data := map[string]interface {} {
+		"qwe":123,
+		"data": "golang",
+	}
+	err := MyRedis.HMSet("TestSetKey",data)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("HMSET COMPLETE")
+}
+
+func hmget(MyRedis Redis.RedisType) {
+	row,err := MyRedis.HMGet("TestSetKey","qwe","data")
+	pareseError(row,err)
+	fmt.Println("HMGET COMPLETE")
+}
+
+func hlen(Myredis Redis.RedisType) {
+	a,err := Myredis.HLen("TestSetKey")
+	pareseError(a,err)
+}
+
+func hincrby(MyRedis Redis.RedisType) {
+	row,err := MyRedis.HIncrBy("TestSetKey","qwe",12)
+	pareseError(row,err)
+}
+
+func hincrbyfloat(MyRedis Redis.RedisType) {
+	row,err := MyRedis.HIncrByFloat("TestSetKey","qwe",12.9)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(row)
+}
+
+func hsetnx(MyRedis Redis.RedisType) {
+	row,err := MyRedis.HSetNx("TestSetKey","qwe1",43)
+	pareseError(row,err)
+}
+
+func hvals(MyRedis Redis.RedisType) {
+	row,err := MyRedis.HVals("TestSetKey")
+	pareseError(row,err)
+}
+
+func expire(MyRedis Redis.RedisType) {
+	row,err := MyRedis.Expire("TestSetKey",10)
+	pareseError(row,err)
+}
+
+func expireat(MyRedis Redis.RedisType) {
+	row,err := MyRedis.ExpireAt("TestSetKey",10)
+	pareseError(row,err)
+}
+
+func ttl(MyRedis Redis.RedisType) {
+	row,err := MyRedis.Ttl("qwe2")
+	pareseError(row,err)
+}
+
+func set(MyRedis Redis.RedisType) {
+	row,err := MyRedis.Set("qwe",123)
+	pareseError(row,err)
+}
+
+func get(MyRedis Redis.RedisType) {
+	row,err := MyRedis.Get("qwe")
+	pareseError(row,err)
+}
+
+func incr(MyRedis Redis.RedisType) {
+	row,err := MyRedis.Incr("qwe")
+	pareseError(row,err)
+}
+
+func incrby(MyRedis Redis.RedisType) {
+	row,err := MyRedis.IncrBy("qwe",12)
+	pareseError(row,err)
+}
+
+func decr(MyRedis Redis.RedisType) {
+	row,err := MyRedis.Decr("qwe")
+	pareseError(row,err)
+}
+
+func decrby(MyRedis Redis.RedisType) {
+	row,err := MyRedis.DecrBy("qwe",12)
+	pareseError(row,err)
+}
+
+func mset(MyRedis Redis.RedisType) {
+	data := map[string]interface {} {
+		"qwe":123,
+		"data": "golang",
+	}
+	row,err := MyRedis.MSet(data)
+	pareseError(row,err)
+}
+
+func mget(MyRedis Redis.RedisType) {
+	SKeys := []string{"qwe","data"}
+	row,err := MyRedis.MGet(SKeys)
+	pareseError(row,err)
+}
+
+func setex(MyRedis Redis.RedisType) {
+	row,err := MyRedis.SetEx("qwe2",123,1)
+	pareseError(row,err)
+}
+
+func zadd(MyRedis Redis.RedisType) {
+	for i:=1;i<10;i++{
+		z2key := fmt.Sprintf("kaizer_%v",i)
+		row, err := MyRedis.ZAdd("qwer3", z2key, i)
+		pareseError(row, err)
+	}
+}
+
+func zcard(MyRedis Redis.RedisType) {
+	row,err := MyRedis.ZCard("qwer3")
+	pareseError(row,err)
+}
+
+func zcount(MyRedis Redis.RedisType) {
+	row,err := MyRedis.ZCount("qwer3",-1,6)
+	pareseError(row,err)
+}
+func zincrby(MyRedis Redis.RedisType) {
+	row,err := MyRedis.ZIncrBy("qwer3","kaizer_1",6)
+	pareseError(row,err)
+}
+
+func zrange(MyRedis Redis.RedisType) {
+	row,err := MyRedis.ZRange("qwer3",0,10,false)
+	pareseError(row,err)
+	row2,err2 := MyRedis.ZRange("qwer3",0,10,true)
+	pareseError(row2,err2)
+}
+func info(MyRedis Redis.RedisType) {
+	row,err := MyRedis.Info()
+	pareseError(row,err)
+}
+
+func zrangebyscore(MyRedis Redis.RedisType) {
+	row,err := MyRedis.ZRangeByScore("qwer3",1,6,false)
+	pareseError(row,err)
+	row2,err2 := MyRedis.ZRangeByScore("qwer3",1,6,true)
+	pareseError(row2,err2)
+}
+func zrevrange(MyRedis Redis.RedisType) {
+	row,err := MyRedis.ZRevRange("qwer3",0,10,false)
+	pareseError(row,err)
+	row2,err2 := MyRedis.ZRange("qwer3",0,10,true)
+	pareseError(row2,err2)
+}
+func zrank(MyRedis Redis.RedisType) {
+	row,err := MyRedis.ZRank("qwer3","kaizer")
+	pareseError(row,err)
+}
+
+func zrem(MyRedis Redis.RedisType) {
+	row,err := MyRedis.ZRem("qwer3","kaizer_3","kaizer_2")
+	pareseError(row,err)
+}
+
+func publish(MyRedis Redis.RedisType) {
+	row, err := MyRedis.Publish("testChannel","testMsg")
+	pareseError(row,err)
+
+}
+
+func pubsub(MyRedis Redis.RedisType) {
+	r := MyRedis.Pubsub()
+	r.Subscribe("testChannel")
+	for {
+		data := MyRedis.Listen(r)
+		if data["type"] == "subscribe"{ continue }
+		fmt.Println(data)
+	}
+}
+
+func sadd(MyRedis Redis.RedisType) {
+	row,err := MyRedis.SAdd("qweqweqwqweqweqwe","qwe3","qwe2")
+	pareseError(row,err)
+}
+func scard(MyRedis Redis.RedisType) {
+	row,err := MyRedis.SCard("qweqweqwqweqweqwe")
+	pareseError(row,err)
+}
+
+func smembers(MyRedis Redis.RedisType) {
+	row,err := MyRedis.SMembers("qweqweqwqweqweqwe")
+	pareseError(row,err)
+}
+func sismember(MyRedis Redis.RedisType) {
+	row,err := MyRedis.SIsMember("qweqweqwqweqweqwe","qwe3")
+	pareseError(row,err)
+	row2,err2 := MyRedis.SIsMember("qweqweqwqweqweqwe","qwe123213")
+	pareseError(row2,err2)
+}
+
+func spop(MyRedis Redis.RedisType) {
+	row,err := MyRedis.SPop("qweqweqwqweqweqwe")
+	pareseError(row,err)
+}
+
+func srandmembers(MyRedis Redis.RedisType) {
+	row,err := MyRedis.SRandMembers("qweqweqwqweqweqwe")
+	pareseError(row,err)
+	row2,err2 := MyRedis.SRandMembers("qweqweqwqweqweqwe",10)
+	pareseError(row2,err2)
+}
+func srem(MyRedis Redis.RedisType) {
+	row,err := MyRedis.SRem("qweqweqwqweqweqwe","qwe3","qwe")
+	pareseError(row,err)
+}
+
+
+func main() {
+	MyRedis := connect()
+	defer MyRedis.RedisConn.Close()
+	sadd(MyRedis)
+	srem(MyRedis)
+}
