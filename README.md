@@ -20,7 +20,7 @@ Kaizer666 - [http://vk.com/](http://vk.com/id_00000000000000000000000000)
 package main
 
 import (
-      "https://github.com/kaizer666/Redis"
+      "github.com/kaizer666/Redis"
       "fmt"
       )
 
