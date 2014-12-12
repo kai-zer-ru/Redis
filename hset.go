@@ -15,13 +15,13 @@ func (r *RedisType) HGetAll(key string) (map[string]interface {},error) {
 	return row,errRed
 }
 
-func (r *RedisType) HMGet(key string,fields ...string) (map[string]interface {},error) {
+func (r *RedisType) HMGet(key string,fields ...interface {}) (map[string]interface {},error) {
 	params := make([]interface {},0)
 	vals := make([]string,0)
 	params = append(params,key)
 	for _,k := range fields{
 		params = append(params,k)
-		vals = append(vals,k)
+		vals = append(vals,fmt.Sprintf("%s",k))
 	}
 	rowRed,errRed := r.RedisConn.Do("HMGET",params...)
 	if errRed == redis.ErrNil{
@@ -31,7 +31,7 @@ func (r *RedisType) HMGet(key string,fields ...string) (map[string]interface {},
 	return row,errRed
 }
 
-func (r *RedisType) HGet(key,field string) (interface {},error) {
+func (r *RedisType) HGet(key string,field interface {}) (interface {},error) {
 	row,err := redis.String(r.RedisConn.Do("HGET",key,field))
 	if err == redis.ErrNil{
 		return nil,nil
@@ -39,12 +39,11 @@ func (r *RedisType) HGet(key,field string) (interface {},error) {
 	return row,err
 }
 
-func (r *RedisType) HSet (key,field string,value interface {}) error {
+func (r *RedisType) HSet (key string,field interface {},value interface {}) error {
 	params := make([]interface {},0)
 	params = append(params,key)
 	params = append(params,field)
 	params = append(params,value)
-	fmt.Println(params)
 	err := r.RedisConn.Send("HSET",params...)
 	if err != nil {
 		return err
@@ -58,7 +57,6 @@ func (r *RedisType) HMSet(key string, data map[string]interface {}) error {
 		params = append(params,k)
 		params = append(params,v)
 	}
-	fmt.Println("params = ",params)
 	err := r.RedisConn.Send("HMSET",params...)
 	if err != nil {
 		return err
@@ -66,7 +64,7 @@ func (r *RedisType) HMSet(key string, data map[string]interface {}) error {
 	return nil
 }
 
-func (r *RedisType) HExists(key,field string) (bool,error) {
+func (r *RedisType) HExists(key string,field interface {}) (bool,error) {
 	params := make([]interface {},0)
 	params = append(params,key)
 	params = append(params,field)
@@ -74,7 +72,7 @@ func (r *RedisType) HExists(key,field string) (bool,error) {
 	return exist, err
 }
 
-func (r *RedisType) HDel(key string,fields ...string) error {
+func (r *RedisType) HDel(key string,fields ...interface {}) error {
 	params := make([]interface {},0)
 	params = append(params,key)
 	for _,v := range fields {
@@ -100,7 +98,7 @@ func (r *RedisType) HLen(key string) (int,error) {
 	return row, err
 }
 
-func (r *RedisType) HIncrBy(key,field string,increment int) (int, error) {
+func (r *RedisType) HIncrBy(key string,field interface {},increment interface {}) (int, error) {
 	params := make([]interface {},0)
 	params = append(params,key)
 	params = append(params,field)
@@ -109,7 +107,7 @@ func (r *RedisType) HIncrBy(key,field string,increment int) (int, error) {
 	return row,err
 }
 
-func (r *RedisType) HIncrByFloat (key,field string,increment float64) (interface {}, error) {
+func (r *RedisType) HIncrByFloat (key string,field interface {},increment interface {}) (interface {}, error) {
 	params := make([]interface {},0)
 	params = append(params,key)
 	params = append(params,field)
@@ -118,7 +116,7 @@ func (r *RedisType) HIncrByFloat (key,field string,increment float64) (interface
 	return row,err
 }
 
-func (r *RedisType) HSetNx (key,field string,value interface {}) (interface{},error) {
+func (r *RedisType) HSetNx (key string,field interface {},value interface {}) (interface{},error) {
 	params := make([]interface {},0)
 	params = append(params,key)
 	params = append(params,field)

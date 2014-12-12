@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (r *RedisType) Publish (channel, message string) (int,error){
+func (r *RedisType) Publish (channel string, message interface {}) (int,error){
 	row,err := redis.Int(r.RedisConn.Do("PUBLISH", channel, message))
 	return row, err
 }
@@ -29,7 +29,10 @@ func (r *RedisType) Listen (psc redis.PubSubConn) map[string]interface {}{
 		data["type"] = "subscribe"
 		return data
 	case error:
-		panic(v)
+		data["channel"] = "error"
+		data["data"] = v
+		data["type"] = "error"
+		return data
 	}
 	return nil
 }

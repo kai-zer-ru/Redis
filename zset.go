@@ -41,7 +41,7 @@ func (r *RedisType) ZCount (key string, min,max int) (int,error) {
 	return row, err
 }
 
-func (r *RedisType) ZIncrBy (key,member string, increment int) (int,error) {
+func (r *RedisType) ZIncrBy (key string, member interface {}, increment interface {}) (int,error) {
 	row,err := redis.Int(r.RedisConn.Do("ZINCRBY",key,increment,member))
 	return row, err
 }

@@ -2,7 +2,7 @@ package Redis
 
 import "github.com/redigo/redis"
 
-func (r *RedisType) SAdd (key string, members ...string) (int, error){
+func (r *RedisType) SAdd (key string, members ...interface {}) (int, error){
 	params := make([]interface {},0)
 	params = append(params,key)
 	for _,v := range members{ params = append(params, v) }
@@ -35,12 +35,12 @@ func (r *RedisType) SInterScore (destination string,key ...interface {}) (int,er
 	return row, err
 }
 
-func (r *RedisType) SIsMember (key, member string) (bool,error){
+func (r *RedisType) SIsMember (key string, member interface {}) (bool,error){
 	row,err := redis.Bool(r.RedisConn.Do("SISMEMBER",key, member))
 	return row, err
 }
 
-func (r *RedisType) SMembers (key string) (interface {},error){
+func (r *RedisType) SMembers (key string) ([]string,error){
 	row,err := redis.Strings(r.RedisConn.Do("SMEMBERS",key))
 	if err == redis.ErrNil{ return nil, nil }
 	return row, err
@@ -66,7 +66,7 @@ func (r *RedisType) SRandMember (key string, count ...int) (interface {},error){
 	}
 }
 
-func (r *RedisType) SRem (key string,members ...string) (int,error){
+func (r *RedisType) SRem (key string,members ...interface {}) (int,error){
 	params := make([]interface {},0)
 	params = append(params,key)
 	for _,v := range members{ params = append(params,v) }

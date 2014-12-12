@@ -5,8 +5,8 @@ import (
 	"errors"
 )
 
-func (r *RedisType) Append (key string, value interface {}, seconds int) (int,error) {
-	row,err := redis.Int(r.RedisConn.Do("APPEND",key,seconds,value))
+func (r *RedisType) Append (key string, value interface {}) (int,error) {
+	row,err := redis.Int(r.RedisConn.Do("APPEND",key,value))
 	return row, err
 }
 
@@ -46,22 +46,22 @@ func (r *RedisType) Decr (key string) (int, error){
 	return row, err
 }
 
-func (r *RedisType) DecrBy (key string, decrement int) (int, error){
+func (r *RedisType) DecrBy (key string, decrement interface {}) (int, error){
 	row,err := redis.Int(r.RedisConn.Do("DECRBY",key,decrement))
 	return row, err
 }
 
 func (r *RedisType) Get (key string) (interface {},error) {
-	row,err := redis.String(r.RedisConn.Do("GET",key))
+	row,err := r.RedisConn.Do("GET",key)
 	return row, err
 }
 
-func (r *RedisType) GetBit (key string, offset int) (int,error) {
+func (r *RedisType) GetBit (key string, offset interface {}) (int,error) {
 	row,err := redis.Int(r.RedisConn.Do("GETBIT",key,offset))
 	return row, err
 }
 
-func (r *RedisType) GetRange (key string, start,end int) (interface {},error) {
+func (r *RedisType) GetRange (key string, start,end interface {}) (interface {},error) {
 	row,err := r.RedisConn.Do("GETRANGE",key,start,end)
 	return row, err
 }
@@ -76,7 +76,7 @@ func (r *RedisType) Incr (key string) (int, error){
 	return row, err
 }
 
-func (r *RedisType) IncrBy (key string, increment int) (int, error){
+func (r *RedisType) IncrBy (key string, increment interface {}) (int, error){
 	row,err := redis.Int(r.RedisConn.Do("INCRBY",key,increment))
 	return row, err
 }
@@ -119,8 +119,8 @@ func (r *RedisType) PSetEx (key string, value interface {}, milliseconds int) (b
 	return row, err
 }
 
-func (r *RedisType) Set (key string, value interface {}) (bool, error) {
-	row,err := redis.Bool(r.RedisConn.Do("SET",key,value))
+func (r *RedisType) Set (key string, value interface {}) (interface {}, error) {
+	row,err := r.RedisConn.Do("SET",key,value)
 	return row, err
 }
 
@@ -129,7 +129,7 @@ func (r *RedisType) SetBit (key string, offset int, value interface {}) (int,err
 	return row, err
 }
 
-func (r *RedisType) SetEx (key string, value interface {}, seconds int) (bool,error) {
+func (r *RedisType) SetEx (key string, value interface {}, seconds interface {}) (bool,error) {
 	row,err := redis.Bool(r.RedisConn.Do("SETEX",key,seconds,value))
 	return row, err
 }
@@ -139,7 +139,7 @@ func (r *RedisType) SetNX (key string, value interface {}) (int,error) {
 	return row, err
 }
 
-func (r *RedisType) SetRange (key string, offset int, value interface {}) (int,error) {
+func (r *RedisType) SetRange (key string, offset interface {}, value interface {}) (int,error) {
 	row,err := redis.Int(r.RedisConn.Do("SETRANGE",key,offset,value))
 	return row, err
 }

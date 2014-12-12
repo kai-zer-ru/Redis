@@ -208,7 +208,6 @@ func (r *RedisType) GetBool(row interface {},err error) (bool,error) {
 	if err != nil {
 		return false, err
 	}
-	fmt.Printf("(%T) : %v\n",row,row)
 	switch row.(type){
 	case string:
 		if row.(string) == "OK" {return true, nil} else {return false, err}
